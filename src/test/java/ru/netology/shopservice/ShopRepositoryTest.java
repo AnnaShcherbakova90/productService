@@ -34,11 +34,30 @@ public class ShopRepositoryTest {
     }
 
     @Test
-    public void shouldTrowException() {
+    public void shouldTrowNotFoundException() {
         shopRepository.add(book);
 
         Assertions.assertThrows(NotFoundException.class, () -> {
             shopRepository.remove(2);
+        });
+    }
+
+    @Test
+    public void shouldAddProduct() {
+        shopRepository.add(book);
+
+        Product[] expected = {book};
+        Product[] actual = shopRepository.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldThrowAlreadyExistsException() {
+        shopRepository.add(book);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            shopRepository.add(book);
         });
     }
 
